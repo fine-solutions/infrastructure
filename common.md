@@ -90,5 +90,5 @@
 
   ```bash
   sudo dnf -y update
-  sudo dnf install -y dnf-utils zip unzip rsync mc emacs tmux nano
+  sudo dnf install -y dnf-utils zip unzip curl wget git rsync mc emacs tmux nano vim
   ```

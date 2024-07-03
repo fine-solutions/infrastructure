@@ -4,10 +4,11 @@
 
 ```bash
 sudo dnf -y update
-sudo dnf -y install gcc gcc-c++ gcc-toolset-11-gcc gcc-toolset-11-gcc-c++ kernel-devel dkms socat bash-completion socat pcre pcre-devel gd gd-devel zlib zlib-devel openssl openssl-devel GeoIP-devel libxslt-devel
+sudo dnf -y install gcc gcc-c++ gcc-toolset-11-gcc gcc-toolset-11-gcc-c++ kernel-devel dkms socat bash-completion socat pcre pcre-devel gd gd-devel zlib zlib-devel openssl openssl-devel GeoIP-devel libxslt-devel libxml2-devel bzip2-devel libffi-devel zlib-devel make
 yum groupinstall 'Development Tools'
 source /opt/rh/gcc-toolset-11/enable
 gcc -v
+sudo dnf install cmake
 ```
 
 ## Удалить стоящий по умолчанию Nginx
@@ -16,7 +17,7 @@ gcc -v
 dnf --showduplicates list nginx
 
 # В первой строчке вывода предыдущей команды будет текущая версия, установленная в системе
-dnf remove nginx-1.14.1
+dnf remove nginx-1.20.1
 ```
 
 ## Установить последнюю версии Nginx и его модулей
@@ -24,7 +25,7 @@ dnf remove nginx-1.14.1
 ```bash
 # Скачать и распаковать последнюю версию
 wget http://nginx.org/download/nginx-1.25.4.tar.gz
-tar zxvf nginx-1.25.4.tar.gz
+tar zxvf nginx-1.26.1.tar.gz
 
 # Скачать модуль Brotli для поддержки высокой степени сжатия статических файлов
 git clone https://github.com/google/ngx_brotli.git
@@ -37,7 +38,7 @@ cmake -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=OFF -DCMAKE_C_FLAGS="-Ofast
 cmake --build . --config Release --target brotlienc
 
 # Сконфигурировать сборку Nginx
-cd ../../../../nginx-1.25.4
+cd ../../../../nginx-1.26.1
 export CFLAGS="-m64 -march=native -mtune=native -Ofast -flto -funroll-loops -ffunction-sections -fdata-sections -Wl,--gc-sections"
 export LDFLAGS="-m64 -Wl,-s -Wl,-Bsymbolic -Wl,--gc-sections"
 

@@ -24,21 +24,20 @@ dnf remove nginx-1.20.1
 
 ```bash
 # Скачать и распаковать последнюю версию
-wget http://nginx.org/download/nginx-1.25.4.tar.gz
-tar zxvf nginx-1.26.1.tar.gz
+wget http://nginx.org/download/nginx-1.26.2.tar.gz
+tar zxvf nginx-1.26.2.tar.gz
 
 # Скачать модуль Brotli для поддержки высокой степени сжатия статических файлов
-git clone https://github.com/google/ngx_brotli.git
-cd ngx_brotli && git submodule update --init && cd ..
+git clone --recurse-submodules -j8 https://github.com/google/ngx_brotli
 
 # Скомпилировать модуль Brotli
 cd ngx_brotli/deps/brotli
 mkdir out && cd out
-cmake -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=OFF -DCMAKE_C_FLAGS="-Ofast -m64 -march=native -mtune=native -flto -funroll-loops -ffunction-sections -fdata-sections -Wl,--gc-sections" -DCMAKE_CXX_FLAGS="-Ofast -m64 -march=native -mtune=native -flto -funroll-loops -ffunction-sections -fdata-sections -Wl,--gc-sections" -DCMAKE_INSTALL_PREFIX=./installed ..
+cmake -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=OFF -DCMAKE_C_FLAGS="-Ofast -m64 -march=native -mtune=native -flto -funroll-loops -ffunction-sections -fdata-sections -Wl,--gc-sections" -DCMAKE_CXX_FLAGS="-Ofast -m64 -march=native -mtune=native -flto=auto -ffat-lto-objects -flto=auto -ffat-lto-objects -funroll-loops -ffunction-sections -fdata-sections -Wl,--gc-sections" -DCMAKE_INSTALL_PREFIX=./installed ..
 cmake --build . --config Release --target brotlienc
 
 # Сконфигурировать сборку Nginx
-cd ../../../../nginx-1.26.1
+cd ../../../../nginx-1.26.2
 export CFLAGS="-m64 -march=native -mtune=native -Ofast -flto -funroll-loops -ffunction-sections -fdata-sections -Wl,--gc-sections"
 export LDFLAGS="-m64 -Wl,-s -Wl,-Bsymbolic -Wl,--gc-sections"
 
@@ -59,9 +58,9 @@ Wants=network-online.target
 [Service]
 Type=forking
 PIDFile=/run/nginx.pid
-ExecStartPre=/usr/local/nginx/nginx -t
-ExecStart=/usr/local/nginx/nginx
-ExecReload=/usr/local/nginx/nginx -s reload
+ExecStartPre=/usr/share/nginx/sbin/nginx -t
+ExecStart=/usr/share/nginx/sbin/nginx
+ExecReload=/usr/share/nginx/sbin/nginx -s reload
 ExecStop=/bin/kill -s QUIT $MAINPID
 PrivateTmp=true
 

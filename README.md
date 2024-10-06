@@ -21,3 +21,4 @@
 - [Типовая настройка](common.md)
 - [Настройка Zabbix](zabbix.md)
 - [Настройка Nginx](nginx.md)
+- [Настройка HTTPS](https.md)

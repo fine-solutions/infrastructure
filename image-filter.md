@@ -12,13 +12,13 @@
 
 - Добавить каталог для кеширования картинок в файл `nginx.conf`
 
-  ```bash
+  ```nginxconf
   proxy_cache_path /var/nginx/cache levels=1:2 keys_zone=image_cache:10m inactive=24h max_size=5G;
   ```
 
 - Добавить конфигурацию обратного прокси для кеширования картинок в основной раздел `server` конфигурации для сайта
 
-  ```bash
+  ```nginxconf
   location ~ (?<file>.+)-(?<width>350|650|1250|1850|2250)w\.(?<format>png|jpg|webp)$ {                                                
     proxy_pass              http://localhost:3000;
     proxy_cache             image_cache;
@@ -30,7 +30,7 @@
 
 - Добавить директиву `server` для организации кеширования на `localhost:3000`
 
-  ```bash
+  ```nginxconf
   server {
     listen  3000;
     root    /web/sites/fine-solutions.org/www;

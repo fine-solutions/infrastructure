@@ -19,3 +19,5 @@
 - [Настройка Nginx](nginx.md)
 - [Настройка HTTPS](https.md)
 - [Настройка ротации логов](logrotate.md)
+- [Настройка службы автоматической конвертации картинок](image-watcher.md)
+- [Настройка модуля `image_filter`](image-filter.md)

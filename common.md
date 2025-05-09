@@ -3,6 +3,7 @@
 - Добавить пользователя с правами администратора (на примере `user`):
 
   ```bash
+  # RedHat based
   useradd user             # Создание пользователя
   grep user /etc/passwd    # Проверка наличия пользователя
   passwd user              # Создание пароля для пользователя
@@ -13,6 +14,11 @@
   grep wheel /etc/sudoers  # Проверка настроек для админов
   usermod -aG wheel user   # Добавление пользователя в группу админов
   grep wheel /etc/group    # Проверка состава группы админов
+
+  # Debian based
+  useradd -m -s /bin/bash user # Создание пользователя
+  passwd user                  # Создание пароля для пользователя
+  usermod -a -G sudo user      # Добавление пользователя в группу админов
   ```
 
 - Добавить публичный ключ пользователя на сервер (на примере `user`):
@@ -89,6 +95,11 @@
 - Обновить пакеты и установить самое необходимое:
 
   ```bash
+  # RedHat based
   sudo dnf -y update
   sudo dnf install -y dnf-utils zip unzip curl wget git rsync mc emacs tmux nano vim
+
+  # Debian based
+  sudo apt update
+  sudo apt install -y dnf-utils zip unzip curl wget git rsync mc emacs tmux nano vim
   ```
